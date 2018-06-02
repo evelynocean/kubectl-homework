@@ -1,0 +1,85 @@
+# for old k8s cluster:
+apiVersion: extensions/v1beta1
+# apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-depl-1
+  # labels:
+  #   app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+      secr: account
+      conf: password
+      backend: go
+  template:
+    metadata:
+      # name: nginx-pod-1
+      # namespace: default
+      labels:
+        app: nginx
+        secr: account
+        conf: password
+        backend: go
+    spec:
+      volumes:
+      - name: pod-secret-1
+        secret:
+          secretName: secret-1
+          items:
+          - key: account
+            path: account
+      - name: pod-config-1
+        configMap:
+          name: config-1
+          items:
+            - key: password
+              path: password
+      containers:
+      - image: nginx:latest
+        imagePullPolicy: Always
+        name: nginx-pod-1
+        ports:
+          - containerPort: 1000
+            protocol: TCP
+        volumeMounts:
+        - mountPath: /usr/share/www/html
+          name: pod-secret-1
+      - image: nginx:latest
+        imagePullPolicy: Always
+        name: nginx-pod-2
+        ports:
+          - containerPort: 2000
+            protocol: TCP
+        volumeMounts:
+        - mountPath: /usr/share/www/html
+          name: pod-config-1
+          readOnly: true
+      - image: nginx:latest
+        imagePullPolicy: Always
+        name: nginx-pod-3
+        ports:
+          - containerPort: 3000
+            protocol: TCP
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "120Mi"
+            cpu: "200m"
+      - image: evelynocean/hello:0.1
+        imagePullPolicy: Always
+        name: evelyn-hello
+        ports:
+          - containerPort: 1031
+            protocol: TCP
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "120Mi"
+            cpu: "200m"
