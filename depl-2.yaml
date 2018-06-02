@@ -4,7 +4,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   namespace: default
-  name: nginx-depl-1
+  name: nginx-depl-2
   labels:
     app: nginx
 spec:
@@ -12,8 +12,8 @@ spec:
   selector:
     matchLabels:
       app: nginx
-      secr: account
-      # conf: password
+      # secr: account
+      conf: password
       # backend: go
   template:
     metadata:
@@ -21,43 +21,43 @@ spec:
       # namespace: default
       labels:
         app: nginx
-        secr: account
-        # conf: password
+        # secr: account
+        conf: password
         # backend: go
     spec:
       volumes:
-      - name: pod-secret-1
-        secret:
-          secretName: secret-1
-          items:
-          - key: account
-            path: account
-      # - name: pod-config-1
-      #   configMap:
-      #     name: config-1
+      # - name: pod-secret-1
+      #   secret:
+      #     secretName: secret-1
       #     items:
-      #       - key: password
-      #         path: password
+      #     - key: account
+      #       path: account
+      - name: pod-config-1
+        configMap:
+          name: config-1
+          items:
+            - key: password
+              path: password
       containers:
+      # - image: nginx:latest
+      #   imagePullPolicy: Always
+      #   name: nginx-pod-1
+      #   ports:
+      #     - containerPort: 1000
+      #       protocol: TCP
+      #   volumeMounts:
+      #   - mountPath: /usr/share/www/html
+      #     name: pod-secret-1
       - image: nginx:latest
         imagePullPolicy: Always
-        name: nginx-pod-1
+        name: nginx-pod-2
         ports:
           - containerPort: 80
             protocol: TCP
         volumeMounts:
         - mountPath: /usr/share/www/html
-          name: pod-secret-1
-      # - image: nginx:latest
-      #   imagePullPolicy: Always
-      #   name: nginx-pod-2
-      #   ports:
-      #     - containerPort: 2000
-      #       protocol: TCP
-      #   volumeMounts:
-      #   - mountPath: /usr/share/www/html
-      #     name: pod-config-1
-      #     readOnly: true
+          name: pod-config-1
+          readOnly: true
       # - image: nginx:latest
       #   imagePullPolicy: Always
       #   name: nginx-pod-3

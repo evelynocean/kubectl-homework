@@ -12,7 +12,7 @@ spec:
     imagePullPolicy: Always
     name: nginx-pod
     ports:
-      - containerPort: 1000
+      - containerPort: 80
         protocol: TCP
     volumeMounts:
     - mountPath: /usr/share/www/html
