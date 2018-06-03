@@ -8,19 +8,19 @@ metadata:
   namespace: default
 spec:
   containers:
-  - image: nginx:latest
-    imagePullPolicy: Always
+  - image: nginx:1.13
+    imagePullPolicy: IfNotPresent
     name: nginx-pod
     ports:
       - containerPort: 80
         protocol: TCP
     volumeMounts:
-    - mountPath: /usr/share/www/html
-      name: pod-secret-1
+      - mountPath: /usr/share/www/html
+        name: pod-secret-1
   volumes:
   - name: pod-secret-1
     secret:
       secretName: secret-1
       items:
       - key: account
-        path: account
+        path: index.html

@@ -8,9 +8,9 @@ metadata:
   namespace: default
 spec:
   containers:
-  - image: nginx:latest
-    imagePullPolicy: Always
-    name: nginx-pod
+  - image: nginx:1.13
+    imagePullPolicy: IfNotPresent
+    name: nginx-pod-3
     ports:
       - containerPort: 80
         protocol: TCP

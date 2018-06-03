@@ -8,8 +8,8 @@ metadata:
   namespace: default
 spec:
   containers:
-  - image: nginx:latest
-    imagePullPolicy: Always
+  - image: nginx:1.13
+    imagePullPolicy: IfNotPresent
     name: nginx-pod
     ports:
       - containerPort: 80
@@ -24,4 +24,4 @@ spec:
       name: config-1
       items:
         - key: password
-          path: password
+          path: index.html
